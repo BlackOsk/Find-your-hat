@@ -27,9 +27,16 @@ function fieldCreater(row){
         field.push(line);
         line = [];
     }
-    field[row-1][Math.round(Math.random()*row)-1] = hat;
+    let numA = Math.round(Math.random()*row)-1;
+    if(numA <= -1){
+        numA = 0;
+    }else if(numA >= row -1){
+        numA = row-1;
+    }
+    field[row-1][numA] = hat;
     return field;
 }
+//console.log(fieldCreater(5));
 
 module.exports = {
     fieldCreater

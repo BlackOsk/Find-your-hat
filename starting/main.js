@@ -1,3 +1,4 @@
+
 const prompt = require('prompt-sync')({sigint: true});
 const path = require('node:path');
 const process = require('node:process');
@@ -6,17 +7,9 @@ const hat = '^';
 const hole = 'O';
 const fieldCharacter = '░';
 const pathCharacter = '*';
-const gameElements = [hat, hole, fieldCharacter, pathCharacter];
-
  class Field {
     constructor(arr){   
-        this._feild = [
-            arr[0],
-            arr[1],
-            arr[2],
-            arr[3],
-            arr[4],
-        ]
+        this._feild = arr;
     }
 
     get feild(){
@@ -28,11 +21,15 @@ const gameElements = [hat, hole, fieldCharacter, pathCharacter];
     } 
     
     print(){
-        return this.feild[0].join('') + '\n' +this.feild[1].join('') + '\n' +this.feild[2].join('') + '\n' +this.feild[3].join('') + '\n' +this.feild[4].join('') + '\n';
+        let output = '';
+        for(let i = 0 ; this.feild[i] != undefined ; i++){
+            output = output + this.feild[i].join('')+'\n';
+        }
+        return output;
     } 
 } 
-
-let myField = new Field(fieldCreater(5));
+let row = prompt('The side length of the map? (5~9 recommend)');
+let myField = new Field(fieldCreater(row));
 let gameFalse = false;
 let gameWin = false;
 let noWay = false;
@@ -41,14 +38,17 @@ let coordinatey = 0;
 
 while (1){
     while(!gameFalse && !gameWin){
+
         if(noWay === true ){
-            myField = new Field(fieldCreater(5));
+            myField = new Field(fieldCreater(row));
             noWay = false;
         }
         console.log(myField.print());
         let move = prompt('Which way? (Input r for right, l for left, d for down, or n for no way) ' );
         if (move === 'n' || move === 'N' ){
             noWay = true; 
+            coordinatex = 0;
+            coordinatey = 0;
             continue;
         }else if(move ===  'r' || move === 'R' ){
             if(myField.feild[coordinatex][coordinatey + 1] === hat){
@@ -98,7 +98,7 @@ while (1){
         noWay = false;
         coordinatex = 0;
         coordinatey = 0;
-        myField = new Field(fieldCreater(5));
+        myField = new Field(fieldCreater(row));
         continue;
     }else {
         break;
